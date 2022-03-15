@@ -28,11 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-<<<<<<< HEAD
-            this.Browse_Button = new System.Windows.Forms.Button();
-=======
-            this.SuspendLayout();
->>>>>>> d67da2d3be24c690570c9df04515f631486db783
             this.NS = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -45,24 +40,13 @@
             this.Number_radioButton = new System.Windows.Forms.RadioButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.Browse_button = new System.Windows.Forms.Button();
+            this.Out_button = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.StoppingCriteria_group.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // Browse_Button
-            // 
-<<<<<<< HEAD
-            this.Browse_Button.Location = new System.Drawing.Point(475, 28);
-            this.Browse_Button.Name = "Browse_Button";
-            this.Browse_Button.Size = new System.Drawing.Size(75, 23);
-            this.Browse_Button.TabIndex = 0;
-            this.Browse_Button.Text = "Browse";
-            this.Browse_Button.UseVisualStyleBackColor = true;
-            this.Browse_Button.Click += new System.EventHandler(this.Browse_Button_Click);
-=======
->>>>>>> d67da2d3be24c690570c9df04515f631486db783
             // 
             // NS
             // 
@@ -167,7 +151,7 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(272, 77);
+            this.dataGridView1.Location = new System.Drawing.Point(254, 66);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
@@ -177,18 +161,40 @@
             // dataGridView2
             // 
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(721, 77);
+            this.dataGridView2.Location = new System.Drawing.Point(731, 66);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.Size = new System.Drawing.Size(469, 417);
             this.dataGridView2.TabIndex = 13;
             // 
+            // Browse_button
+            // 
+            this.Browse_button.Location = new System.Drawing.Point(533, 27);
+            this.Browse_button.Name = "Browse_button";
+            this.Browse_button.Size = new System.Drawing.Size(75, 23);
+            this.Browse_button.TabIndex = 14;
+            this.Browse_button.Text = "Browse";
+            this.Browse_button.UseVisualStyleBackColor = true;
+            this.Browse_button.Click += new System.EventHandler(this.Browse_button_Click);
+            // 
+            // Out_button
+            // 
+            this.Out_button.Location = new System.Drawing.Point(1044, 510);
+            this.Out_button.Name = "Out_button";
+            this.Out_button.Size = new System.Drawing.Size(114, 23);
+            this.Out_button.TabIndex = 15;
+            this.Out_button.Text = "Show output";
+            this.Out_button.UseVisualStyleBackColor = true;
+            this.Out_button.Click += new System.EventHandler(this.Out_button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1202, 562);
+            this.ClientSize = new System.Drawing.Size(1212, 562);
+            this.Controls.Add(this.Out_button);
+            this.Controls.Add(this.Browse_button);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.StoppingCriteria_group);
@@ -213,7 +219,6 @@
         #endregion
 
 
-        static public System.Windows.Forms.Button Browse_Button;
         private System.Windows.Forms.TextBox NS;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
@@ -226,6 +231,8 @@
         private System.Windows.Forms.RadioButton Number_radioButton;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Button Browse_button;
+        private System.Windows.Forms.Button Out_button;
     }
 }
 

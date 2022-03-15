@@ -120,12 +120,13 @@ namespace MultiQueueModels
         }
         public void fillServerInfo(int index , int ser)
         {
-            Servers[ser].ID = ser;
+            //Servers[ser].ID = ser;
             SimulationTable[index].AssignedServer = Servers[ser];
             SimulationTable[index].StartTime = SimulationTable[index].ArrivalTime;
 
             SimulationTable[index].ServiceTime =
             SimulationTable[index].AssignedServer.FindRange(SimulationTable[index].RandomService);
+
             Servers[ser].TotalWorkingTime += SimulationTable[index].ServiceTime;
             SimulationTable[index].EndTime =
                 SimulationTable[index].StartTime + SimulationTable[index].ServiceTime;

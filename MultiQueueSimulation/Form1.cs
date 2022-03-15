@@ -16,14 +16,15 @@ namespace MultiQueueSimulation
 {
     public partial class Form1 : Form
     {
+        Form2 f2;
+        SimulationSystem simulationSystem = new SimulationSystem();
         public Form1()
         {
             InitializeComponent();
             
         }
-        private void Browse_Button_Click(object sender, EventArgs e)
+        private void Browse_button_Click(object sender, EventArgs e)
         {
-            SimulationSystem simulationSystem = new SimulationSystem();
             int size = -1;
             string text = "";
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -137,12 +138,15 @@ namespace MultiQueueSimulation
                         dataGridView2.Rows.Add(row);
                     }
                 }
-
-
-
             }
+            
 
         }
 
+        private void Out_button_Click(object sender, EventArgs e)
+        {
+            f2 = new Form2(simulationSystem);
+            f2.Show();
+        }
     }
 }
