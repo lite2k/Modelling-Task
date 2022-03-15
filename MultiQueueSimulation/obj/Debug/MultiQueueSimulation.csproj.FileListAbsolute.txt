@@ -96,3 +96,17 @@ D:\My Data\Year Four\Semester 2\Modelling & Simulation\Template_Students\Templat
 D:\My Data\Year Four\Semester 2\Modelling & Simulation\Template_Students\Template_Students\MultiQueueSimulation\MultiQueueSimulation\obj\Debug\MultiQueueSimulation.csproj.CopyComplete
 D:\My Data\Year Four\Semester 2\Modelling & Simulation\Template_Students\Template_Students\MultiQueueSimulation\MultiQueueSimulation\obj\Debug\MultiQueueSimulation.exe
 D:\My Data\Year Four\Semester 2\Modelling & Simulation\Template_Students\Template_Students\MultiQueueSimulation\MultiQueueSimulation\obj\Debug\MultiQueueSimulation.pdb
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\bin\Debug\MultiQueueSimulation.exe.config
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\bin\Debug\MultiQueueSimulation.exe
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\bin\Debug\MultiQueueSimulation.pdb
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\bin\Debug\MultiQueueModels.dll
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\bin\Debug\MultiQueueModels.pdb
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\obj\Debug\MultiQueueSimulation.csproj.AssemblyReference.cache
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\obj\Debug\MultiQueueSimulation.csproj.SuggestedBindingRedirects.cache
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\obj\Debug\MultiQueueSimulation.Form1.resources
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\obj\Debug\MultiQueueSimulation.Properties.Resources.resources
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\obj\Debug\MultiQueueSimulation.csproj.GenerateResource.cache
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\obj\Debug\MultiQueueSimulation.csproj.CoreCompileInputs.cache
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\obj\Debug\MultiQueueSimulation.csproj.CopyComplete
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\obj\Debug\MultiQueueSimulation.exe
+C:\Users\Lite 2K\source\Modelling-Task\MultiQueueSimulation\obj\Debug\MultiQueueSimulation.pdb
