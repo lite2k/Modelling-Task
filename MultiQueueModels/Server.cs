@@ -42,5 +42,18 @@ namespace MultiQueueModels
 
             }
         }
+
+        public int FindRange(int RandomNumber)
+        {
+            for (int i = 0; i < TimeDistribution.Count; i++)
+            {
+                if (RandomNumber >= TimeDistribution[i].MinRange &&
+                   RandomNumber <= TimeDistribution[i].MaxRange)
+                {
+                    return TimeDistribution[i].Time;
+                }
+            }
+            return 1;
+        }
     }
 }

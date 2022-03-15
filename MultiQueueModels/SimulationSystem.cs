@@ -42,27 +42,9 @@ namespace MultiQueueModels
             }
         }
 
-        public int FindRange(int RandomNumber)
-        {   
-            for(int i=0;i < InterarrivalDistribution.Count; i++)
-            {
-                if (RandomNumber >= InterarrivalDistribution[i].MinRange &&
-                   RandomNumber <= InterarrivalDistribution[i].MaxRange)
-                {
-                    return InterarrivalDistribution[i].Time;
-                } 
-            }
-            return 1;
-        }
+       
          
-        public Boolean isAvailable(int ServerNum,int ArrTime) 
-        {
-             if (Servers[ServerNum].FinishTime<= ArrTime)
-            {
-                return true;
-            }
-            return false;
-        }
+        
         ///////////// OUTPUTS /////////////
         public List<SimulationCase> SimulationTable { get; set; }
         public PerformanceMeasures PerformanceMeasures { get; set; }
@@ -70,7 +52,8 @@ namespace MultiQueueModels
 
 
         public void BuildSimulationTable()
-        {  
+        {
+            setTotalWorkingTime();
             Random random = new Random();
             SimulationTable[0].RandomInterArrival = 0;
             SimulationTable[0].InterArrival = 0;
@@ -89,15 +72,80 @@ namespace MultiQueueModels
                     returnedServer = priorServer(SimulationTable[i].ArrivalTime);
                     if(returnedServer != -1)
                     {
-                        SimulationTable[i].AssignedServer = Servers[returnedServer];
-                    }
 
+                        fillServerInfo(i, returnedServer);                   
+                    }
+                    else
+                    {
+                        int queuedServer = findMinFinishTime();
+                        fillServerInfo(i, queuedServer);                        
+                    }
                 }
+                else if (SelectionMethod.Equals(Enums.SelectionMethod.Random)){
+                    Random rand = new Random();
+                    List<int> uniqueRandoms = new List<int>();
+                    while (true)
+                    {
+                        int randomServer = rand.Next(0, Servers.Count);
+                        if (!uniqueRandoms.Contains(randomServer)) {
+                            if (isAvailable(randomServer, SimulationTable[i].ArrivalTime))
+                            {
+                                fillServerInfo(i, randomServer);
+                                break;
+                            }
+
+                            uniqueRandoms.Add(randomServer);
+                        }
+                        if(uniqueRandoms.Count == Servers.Count)
+                        {
+                            int queuedServer = findMinFinishTime();
+                            fillServerInfo(i, queuedServer);
+                            break;
+                        }
+                    }
+                }
+                SimulationTable[i].TimeInQueue =
+                    SimulationTable[i].StartTime - SimulationTable[i].EndTime;
             }
 
 
         }
 
+        public void setTotalWorkingTime()
+        {
+            for(int i  =0; i < Servers.Count; i++)
+            {
+                Servers[i].TotalWorkingTime = 0;
+            }
+        }
+        public void fillServerInfo(int index , int ser)
+        {
+            Servers[ser].ID = ser;
+            SimulationTable[index].AssignedServer = Servers[ser];
+            SimulationTable[index].StartTime = SimulationTable[index].ArrivalTime;
+
+            SimulationTable[index].ServiceTime =
+            SimulationTable[index].AssignedServer.FindRange(SimulationTable[index].RandomService);
+            Servers[ser].TotalWorkingTime += SimulationTable[index].ServiceTime;
+            SimulationTable[index].EndTime =
+                SimulationTable[index].StartTime + SimulationTable[index].ServiceTime;
+            SimulationTable[index].AssignedServer.FinishTime = SimulationTable[index].EndTime;
+            Servers[ser].FinishTime = SimulationTable[index].AssignedServer.FinishTime;
+        }
+        public int findMinFinishTime()
+        {
+            int min = 1000000;
+            int serverIndex = 0;
+            for(int i = 0; i < Servers.Count; i++)
+            {
+                if(Servers[i].FinishTime < min)
+                {
+                    min = Servers[i].FinishTime;
+                    serverIndex = i;
+                }
+            }
+            return serverIndex;
+        }
         public int priorServer(int arrivalTime)
         {
             for(int j = 0; j < Servers.Count; j++)
@@ -109,6 +157,69 @@ namespace MultiQueueModels
             }
 
             return -1;
+        }
+        public int FindRange(int RandomNumber)
+        {
+            for (int i = 0; i < InterarrivalDistribution.Count; i++)
+            {
+                if (RandomNumber >= InterarrivalDistribution[i].MinRange &&
+                   RandomNumber <= InterarrivalDistribution[i].MaxRange)
+                {
+                    return InterarrivalDistribution[i].Time;
+                }
+            }
+            return 1;
+        }
+        public Boolean isAvailable(int ServerNum, int ArrivalTime)
+        {
+            if (Servers[ServerNum].FinishTime <= ArrivalTime)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void CalculatePerformaneMeasures()
+        {
+            int waitedTimeSum = 0;
+            int waitedCustomers = 0;
+            for(int i = 0; i < SimulationTable.Count; i++)
+            {
+                waitedTimeSum += SimulationTable[i].TimeInQueue;
+                if(SimulationTable[i].TimeInQueue != 0)
+                {
+                    waitedCustomers += 1;
+                }
+            }
+            PerformanceMeasures.AverageWaitingTime = waitedTimeSum / SimulationTable.Count;
+            PerformanceMeasures.WaitingProbability = waitedCustomers / SimulationTable.Count;
+            //Max Queue length missing
+        }
+
+        public void CalculatePerServerPerformance()
+        {
+            int maxFinishTime = 0;
+            int totalIdleTime = 0;
+            for (int i = 0; i < Servers.Count; i++)
+            {
+                if(Servers[i].FinishTime > maxFinishTime)
+                {
+                    maxFinishTime = Servers[i].FinishTime;
+                }
+
+            }
+
+            for(int j = 0; j < Servers.Count; j++)
+            {
+                totalIdleTime = maxFinishTime - Servers[j].TotalWorkingTime;
+                Servers[j].IdleProbability = totalIdleTime / maxFinishTime;
+                Servers[j].AverageServiceTime = Servers[j].TotalWorkingTime / SimulationTable.Count;
+                //Not sure
+                Servers[j].Utilization = Servers[j].TotalWorkingTime / maxFinishTime;
+            }
+
+            
+
         }
     }
 }
