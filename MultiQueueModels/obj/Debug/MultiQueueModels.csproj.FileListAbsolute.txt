@@ -39,3 +39,8 @@ D:\My Data\Year Four\Semester 2\Modelling & Simulation\Template_Students\Templat
 D:\My Data\Year Four\Semester 2\Modelling & Simulation\Template_Students\Template_Students\MultiQueueSimulation\MultiQueueModels\obj\Debug\MultiQueueModels.csprojAssemblyReference.cache
 D:\My Data\Year Four\Semester 2\Modelling & Simulation\Template_Students\Template_Students\MultiQueueSimulation\MultiQueueModels\obj\Debug\MultiQueueModels.dll
 D:\My Data\Year Four\Semester 2\Modelling & Simulation\Template_Students\Template_Students\MultiQueueSimulation\MultiQueueModels\obj\Debug\MultiQueueModels.pdb
+D:\My Data\Year Four\Semester 2\Modelling & Simulation\Modelling-Task\MultiQueueModels\obj\Debug\MultiQueueModels.csprojAssemblyReference.cache
+D:\My Data\Year Four\Semester 2\Modelling & Simulation\Modelling-Task\MultiQueueModels\obj\Debug\MultiQueueModels.dll
+D:\My Data\Year Four\Semester 2\Modelling & Simulation\Modelling-Task\MultiQueueModels\obj\Debug\MultiQueueModels.pdb
+D:\My Data\Year Four\Semester 2\Modelling & Simulation\Modelling-Task\MultiQueueModels\bin\Debug\MultiQueueModels.dll
+D:\My Data\Year Four\Semester 2\Modelling & Simulation\Modelling-Task\MultiQueueModels\bin\Debug\MultiQueueModels.pdb

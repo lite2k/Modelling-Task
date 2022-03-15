@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            this.Browse_Button = new System.Windows.Forms.Button();
             this.NS = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,13 +41,6 @@
             // 
             // Browse_Button
             // 
-            this.Browse_Button.Location = new System.Drawing.Point(455, 12);
-            this.Browse_Button.Name = "Browse_Button";
-            this.Browse_Button.Size = new System.Drawing.Size(75, 23);
-            this.Browse_Button.TabIndex = 0;
-            this.Browse_Button.Text = "Browse";
-            this.Browse_Button.UseVisualStyleBackColor = true;
-            this.Browse_Button.Click += new System.EventHandler(this.Browse_Button_Click);
             // 
             // NS
             // 
@@ -133,7 +125,6 @@
             this.Controls.Add(this.SC);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.NS);
-            this.Controls.Add(this.Browse_Button);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -145,7 +136,7 @@
         #endregion
 
 
-        private System.Windows.Forms.Button Browse_Button;
+        static public System.Windows.Forms.Button Browse_Button;
         private System.Windows.Forms.TextBox NS;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
