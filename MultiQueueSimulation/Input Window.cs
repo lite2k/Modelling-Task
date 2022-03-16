@@ -12,7 +12,6 @@ using System.Windows.Forms;
 using MultiQueueModels;
 
 
-
 namespace MultiQueueSimulation
 {
     public partial class InputForm : Form
