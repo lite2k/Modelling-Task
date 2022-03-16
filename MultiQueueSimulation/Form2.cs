@@ -38,27 +38,35 @@ namespace MultiQueueSimulation
                                                   simulationSystem.InterarrivalDistribution[i].MaxRange.ToString()};
                 dataGridView1.Rows.Add(row);
             }
+            simulationSystem.BuildSimulationTable();
+            dataGridView2.ColumnCount = 10;
+            dataGridView2.Columns[0].Name = "Customer Number";
+            dataGridView2.Columns[1].Name = "Random arrival time";
+            dataGridView2.Columns[2].Name = "Interarrival time";
+            dataGridView2.Columns[3].Name = "Arrival Time";
+            dataGridView2.Columns[4].Name = "Random Service time";
+            dataGridView2.Columns[5].Name = "Assigned Server/Index";
+            dataGridView2.Columns[6].Name = "Server Service time";
+            dataGridView2.Columns[7].Name = "Server Service Start time";
+            dataGridView2.Columns[8].Name = "Server Service End time";
+            dataGridView2.Columns[9].Name = "Time in Queue";
 
-            // dataGridView2.ColumnCount = 6;
-            // dataGridView2.Columns[0].Name = "Server Index";
-            // dataGridView2.Columns[1].Name = "Service Time";
-            // dataGridView2.Columns[2].Name = "Probability";
-            // dataGridView2.Columns[3].Name = "Cummulative probability";
-            // dataGridView2.Columns[4].Name = "Min Range";
-            // dataGridView2.Columns[5].Name = "Max Range";
+            for (int i = 0; i < simulationSystem.SimulationTable.Count; i++)
+            {
+                string[] row = new string[] { simulationSystem.SimulationTable[i].CustomerNumber.ToString(),
+                                                       simulationSystem.SimulationTable[i].RandomInterArrival.ToString(),
+                                                       simulationSystem.SimulationTable[i].InterArrival.ToString(),
+                                                       simulationSystem.SimulationTable[i].ArrivalTime.ToString(),
+                                                       simulationSystem.SimulationTable[i].RandomService.ToString(),
+                                                       simulationSystem.SimulationTable[i].AssignedServer.ID.ToString(),
+                                                       simulationSystem.SimulationTable[i].ServiceTime.ToString(),
+                                                       simulationSystem.SimulationTable[i].StartTime.ToString(),
+                                                       simulationSystem.SimulationTable[i].EndTime.ToString(),
+                                                       simulationSystem.SimulationTable[i].TimeInQueue.ToString()};
+                dataGridView2.Rows.Add(row);
 
-            // for (int i = 0; i < simulationSystem.Servers.Count; i++)
-            // {
-            //     for (int j = 0; j < simulationSystem.Servers[i].TimeDistribution.Count; j++)
-            //     {
-            //         string[] row = new string[] { simulationSystem.Servers[i].ID.ToString(),
-            //                                           simulationSystem.Servers[i].TimeDistribution[j].Time.ToString(),
-            //                                           simulationSystem.Servers[i].TimeDistribution[j].Probability.ToString(),
-            //                                           simulationSystem.Servers[i].TimeDistribution[j].CummProbability.ToString(),
-            //                                           simulationSystem.Servers[i].TimeDistribution[j].MinRange.ToString(),
-            //                                           simulationSystem.Servers[i].TimeDistribution[j].MaxRange.ToString()}; 
-            //         dataGridView2.Rows.Add(row);
+
+            }
         }
-
     }
 }

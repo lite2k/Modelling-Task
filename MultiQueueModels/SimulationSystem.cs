@@ -53,26 +53,40 @@ namespace MultiQueueModels
 
         public void BuildSimulationTable()
         {
-            setTotalWorkingTime();
-            Random random = new Random();
-            SimulationTable[0].RandomInterArrival = 0;
-            SimulationTable[0].InterArrival = 0;
-            SimulationTable[0].ArrivalTime = 0;
-            int returnedServer;
-            for (int i = 1; i <StoppingNumber; i++)
+            for (int i = 0; i < Servers.Count; i++)
             {
-                SimulationTable[i].CustomerNumber = i;
-                SimulationTable[i].RandomInterArrival = random.Next(1, 100);
-                SimulationTable[i].InterArrival = FindRange(SimulationTable[i].RandomInterArrival);
-                SimulationTable[i].ArrivalTime = SimulationTable[i - 1].ArrivalTime + SimulationTable[i].InterArrival;
-                SimulationTable[i].RandomService = random.Next(1, 100);    
-                
+                Servers[i].BuildServerTable();
+            }
+            //Cannot index an empty object,
+            //object must be intialized first and data must be added before refrence
+            SimulationTable = new List<SimulationCase>();
+            SimulationCase Scase = new SimulationCase();
+            Random random = new Random();
+            int returnedServer;
+
+            setTotalWorkingTime();
+
+            Scase.InterArrival = 0;
+            Scase.RandomInterArrival = 0;
+            Scase.ArrivalTime = 0;
+
+            SimulationTable.Add(Scase);
+
+            for (int i = 1; i <StoppingNumber; i++)
+            { 
+                //cannot directly index/refrence an empty object from a list
+                Scase.CustomerNumber = i;
+                Scase.RandomInterArrival = random.Next(1, 100);
+                Scase.InterArrival = FindRange(Scase.RandomInterArrival);
+                Scase.ArrivalTime = SimulationTable[i - 1].ArrivalTime + Scase.InterArrival;
+                Scase.RandomService = random.Next(1, 100);    
+                SimulationTable.Add(Scase);
+
                 if(SelectionMethod.Equals(Enums.SelectionMethod.HighestPriority))
                 {
                     returnedServer = priorServer(SimulationTable[i].ArrivalTime);
                     if(returnedServer != -1)
                     {
-
                         fillServerInfo(i, returnedServer);                   
                     }
                     else
@@ -120,7 +134,7 @@ namespace MultiQueueModels
         }
         public void fillServerInfo(int index , int ser)
         {
-            //Servers[ser].ID = ser;
+            Servers[ser].ID = ser;
             SimulationTable[index].AssignedServer = Servers[ser];
             SimulationTable[index].StartTime = SimulationTable[index].ArrivalTime;
 
