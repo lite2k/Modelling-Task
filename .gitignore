@@ -1,0 +1,14 @@
+.vs
+*.sln
+*.suo
+*.csproj
+*.config
+*.cache
+*.txt
+MultiQueueModels/bin
+MultiQueueModels/Properties
+MultiQueueModels/obj
+MultiQueueSimulation/bin
+MultiQueueSimulation/Properties
+MultiQueueSimulation/obj
+MultiQueueSimulation/TestCases
