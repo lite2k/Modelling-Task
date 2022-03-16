@@ -25,6 +25,8 @@ namespace MultiQueueSimulation
         }
         private void Browse_button_Click(object sender, EventArgs e)
         {
+            simulationSystem.Servers.Clear();
+            simulationSystem.InterarrivalDistribution.Clear();
             int size = -1;
             string text = "";
             OpenFileDialog openFileDialog1 = new OpenFileDialog();

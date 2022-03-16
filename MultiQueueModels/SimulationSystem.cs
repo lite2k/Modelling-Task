@@ -171,7 +171,7 @@ namespace MultiQueueModels
             }
             return 1;
         }
-        public Boolean isAvailable(int ServerNum, int ArrivalTime)
+        public bool isAvailable(int ServerNum, int ArrivalTime)
         {
             if (Servers[ServerNum].FinishTime <= ArrivalTime)
             {
