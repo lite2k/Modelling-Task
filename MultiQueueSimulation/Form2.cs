@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MultiQueueModels;
+
+using MultiQueueTesting;
+
 namespace MultiQueueSimulation
 {
     public partial class Form2 : Form
@@ -67,6 +70,11 @@ namespace MultiQueueSimulation
 
 
             }
+
+            //SimulationSystem system = new SimulationSystem();
+            string result = TestingManager.Test(simulationSystem, Constants.FileNames.TestCase1);
+            MessageBox.Show(result);
+
         }
     }
 }

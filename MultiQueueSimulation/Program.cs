@@ -17,14 +17,20 @@ namespace MultiQueueSimulation
         static void Main()
         {
             SimulationSystem system = new SimulationSystem();
-            system.BuildSimulationTable();
+            //system.BuildSimulationTable();
             
+            //SimulationSystem system = new SimulationSystem();
+            //string result = TestingManager.Test(system, Constants.FileNames.TestCase1);
+            //MessageBox.Show(result);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
             //Form1.Browse_Button.Text
+
             string result = TestingManager.Test(system, Constants.FileNames.TestCase1);
             MessageBox.Show(result);
+
 
         }
     }

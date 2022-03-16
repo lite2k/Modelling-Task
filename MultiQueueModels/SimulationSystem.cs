@@ -26,6 +26,9 @@ namespace MultiQueueModels
 
         public void BuildInterArrTable()
         {
+
+
+
             InterarrivalDistribution[0].CummProbability = InterarrivalDistribution[0].Probability;
             InterarrivalDistribution[0].MinRange = 1;
             InterarrivalDistribution[0].MaxRange = (int)(InterarrivalDistribution[0].Probability*100);
@@ -60,84 +63,94 @@ namespace MultiQueueModels
             //Cannot index an empty object,
             //object must be intialized first and data must be added before refrence
             SimulationTable = new List<SimulationCase>();
-            //SimulationCase Scase = new SimulationCase();
+
             Random random = new Random();
             int returnedServer;
 
             setTotalWorkingTime();
 
-            
 
-            for (int i = 0; i <StoppingNumber; i++)
+
+            for (int i = 0; i < StoppingNumber; i++)
             {
                 SimulationCase Scase = new SimulationCase();
-                if (i == 0){
-                    //SimulationCase Scase = new SimulationCase();
-                    Scase.InterArrival = 0;
-                    Scase.RandomInterArrival = 0;
-                    Scase.ArrivalTime = 0;
-                    Scase.CustomerNumber = i+1;
-
-                    Scase.RandomService = random.Next(1, 100);
-                    SimulationTable.Add(Scase);
-
-				}
-				else
-				{
-                    Scase.RandomInterArrival = random.Next(1, 100);
-                    Scase.InterArrival = FindRange(Scase.RandomInterArrival);
-                    Scase.ArrivalTime = SimulationTable[i - 1].ArrivalTime + Scase.InterArrival;
-                    Scase.CustomerNumber = i+1;
-
-                    Scase.RandomService = random.Next(1, 100);
-                    SimulationTable.Add(Scase);
-                }
-                
-                //cannot directly index/refrence an empty object from a list
-                
-
-                if(SelectionMethod.Equals(Enums.SelectionMethod.HighestPriority))
+                if (i == 0)
                 {
-                    returnedServer = priorServer(Scase.ArrivalTime);
-                    if(returnedServer != -1)
+                    //SimulationCase Scase = new SimulationCase();
+
+
+                    if (i == 0)
                     {
-                        fillServerInfo(i, returnedServer,Scase.ArrivalTime);                   
+
+
+                        Scase.InterArrival = 0;
+                        Scase.RandomInterArrival = random.Next(1, 100); 
+                        Scase.ArrivalTime = 0;
+                        Scase.CustomerNumber = i + 1;
+
+                        Scase.RandomService = 0;
+                        SimulationTable.Add(Scase);
+
                     }
                     else
                     {
-                        int queuedServer = findMinFinishTime();
-                        fillServerInfo(i, queuedServer,Servers[queuedServer].FinishTime);                        
-                    }
-                }
-                else if (SelectionMethod.Equals(Enums.SelectionMethod.Random)){
-                    Random rand = new Random();
-                    List<int> uniqueRandoms = new List<int>();
-                    while (true)
-                    {
-                        int randomServer = rand.Next(0, Servers.Count);
-                        if (!uniqueRandoms.Contains(randomServer)) {
-                            if (isAvailable(randomServer, SimulationTable[i].ArrivalTime))
-                            {
-                                fillServerInfo(i, randomServer, Scase.ArrivalTime);
-                                break;
-                            }
+                        Scase.RandomInterArrival = random.Next(1, 100);
+                        Scase.InterArrival = FindRange(Scase.RandomInterArrival);
+                        Scase.ArrivalTime = SimulationTable[i - 1].ArrivalTime + Scase.InterArrival;
+                        Scase.CustomerNumber = i + 1;
 
-                            uniqueRandoms.Add(randomServer);
+                        Scase.RandomService = random.Next(1, 100);
+                        SimulationTable.Add(Scase);
+                    }
+
+                    //cannot directly index/refrence an empty object from a list
+
+
+                    if (SelectionMethod.Equals(Enums.SelectionMethod.HighestPriority))
+                    {
+                        returnedServer = priorServer(Scase.ArrivalTime);
+                        if (returnedServer != -1)
+                        {
+                            fillServerInfo(i, returnedServer, Scase.ArrivalTime);
                         }
-                        if(uniqueRandoms.Count == Servers.Count)
+                        else
                         {
                             int queuedServer = findMinFinishTime();
-                            fillServerInfo(i, queuedServer,Servers[queuedServer].FinishTime);
-                            break;
+                            fillServerInfo(i, queuedServer, Servers[queuedServer].FinishTime);
                         }
                     }
+                    else if (SelectionMethod.Equals(Enums.SelectionMethod.Random))
+                    {
+                        Random rand = new Random();
+                        List<int> uniqueRandoms = new List<int>();
+                        while (true)
+                        {
+                            int randomServer = rand.Next(0, Servers.Count);
+                            if (!uniqueRandoms.Contains(randomServer))
+                            {
+                                if (isAvailable(randomServer, SimulationTable[i].ArrivalTime))
+                                {
+                                    fillServerInfo(i, randomServer, Scase.ArrivalTime);
+                                    break;
+                                }
+
+                                uniqueRandoms.Add(randomServer);
+                            }
+                            if (uniqueRandoms.Count == Servers.Count)
+                            {
+                                int queuedServer = findMinFinishTime();
+                                fillServerInfo(i, queuedServer, Servers[queuedServer].FinishTime);
+                                break;
+                            }
+                        }
+                    }
+                    SimulationTable[i].TimeInQueue =
+                        SimulationTable[i].StartTime - SimulationTable[i].ArrivalTime;
+
                 }
-                SimulationTable[i].TimeInQueue =
-                    SimulationTable[i].StartTime - SimulationTable[i].ArrivalTime;
-               
+
+
             }
-
-
         }
 
         public void setTotalWorkingTime()
@@ -149,7 +162,7 @@ namespace MultiQueueModels
         }
         public void fillServerInfo(int index , int ser,int startTime)
         {
-            Servers[ser].ID = ser;
+            Servers[ser].ID = ser+1;
             SimulationTable[index].AssignedServer = Servers[ser];
             SimulationTable[index].StartTime = startTime;
 
@@ -213,17 +226,34 @@ namespace MultiQueueModels
         {
             int waitedTimeSum = 0;
             int waitedCustomers = 0;
+             int maxWait = 0;
+            int nonzero = 0;
             for(int i = 0; i < SimulationTable.Count; i++)
             {
                 waitedTimeSum += SimulationTable[i].TimeInQueue;
-                if(SimulationTable[i].TimeInQueue != 0)
+
+                if (SimulationTable[i].TimeInQueue != 0)
                 {
                     waitedCustomers += 1;
+                    nonzero++;
+
                 }
+                else
+                {
+                    if (nonzero > maxWait)
+                    {
+                        maxWait = nonzero;
+                    }
+                    nonzero = 0;
+
+                }
+				
+
             }
             PerformanceMeasures.AverageWaitingTime = waitedTimeSum / SimulationTable.Count;
             PerformanceMeasures.WaitingProbability = waitedCustomers / SimulationTable.Count;
-            //Max Queue length missing
+            PerformanceMeasures.MaxQueueLength = maxWait;
+            
         }
 
         public void CalculatePerServerPerformance()
