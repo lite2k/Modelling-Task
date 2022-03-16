@@ -82,7 +82,7 @@ namespace MultiQueueModels
                     Scase.ArrivalTime = 0;
                     Scase.CustomerNumber = 1;
 
-                    Scase.RandomService = 0;
+                    Scase.RandomService = random.Next(1, 100);
                     SimulationTable.Add(Scase);
 
                 }
@@ -164,8 +164,7 @@ namespace MultiQueueModels
             SimulationTable[index].AssignedServer.FindRange(SimulationTable[index].RandomService);
 
             Servers[ser].TotalWorkingTime += SimulationTable[index].ServiceTime;
-            SimulationTable[index].EndTime =
-                SimulationTable[index].StartTime + SimulationTable[index].ServiceTime;
+            SimulationTable[index].EndTime = SimulationTable[index].StartTime + SimulationTable[index].ServiceTime;
             SimulationTable[index].AssignedServer.FinishTime = SimulationTable[index].EndTime;
             Servers[ser].FinishTime = SimulationTable[index].AssignedServer.FinishTime;
         }
@@ -218,8 +217,8 @@ namespace MultiQueueModels
 
         public void CalculatePerformaneMeasures()
         {
-            int waitedTimeSum = 0;
-            int waitedCustomers = 0;
+            decimal waitedTimeSum = 0;
+            decimal waitedCustomers = 0;
             int maxWait = 0;
             int nonzero = 0;
             for (int i = 0; i < SimulationTable.Count; i++)
@@ -244,8 +243,8 @@ namespace MultiQueueModels
 
 
             }
-            PerformanceMeasures.AverageWaitingTime = waitedTimeSum / SimulationTable.Count;
-            PerformanceMeasures.WaitingProbability = waitedCustomers / SimulationTable.Count;
+            PerformanceMeasures.AverageWaitingTime = (waitedTimeSum / SimulationTable.Count);
+            PerformanceMeasures.WaitingProbability = (waitedCustomers / SimulationTable.Count);
             PerformanceMeasures.MaxQueueLength = maxWait;
 
         }

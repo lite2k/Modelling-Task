@@ -28,7 +28,7 @@ namespace MultiQueueSimulation
 
             averageText.Text = simulationSystem.PerformanceMeasures.AverageWaitingTime.ToString();
             waitText.Text = simulationSystem.PerformanceMeasures.WaitingProbability.ToString();
-            //maxQText.Text = simulationSystem.PerformanceMeasures.MaxQueueLength.ToString();
+            maxQText.Text = simulationSystem.PerformanceMeasures.MaxQueueLength.ToString();
 
             simulationSystem.CalculatePerServerPerformance();
 
