@@ -10,20 +10,27 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using MultiQueueModels;
-using MultiQueueTesting;
+
 
 
 namespace MultiQueueSimulation
 {
-    public partial class Form1 : Form
+    public partial class InputForm : Form
     {
-        Form2 f2;
+        SimOutput simOutput;
         SimulationSystem simulationSystem = new SimulationSystem();
-        public Form1()
+
+        public InputForm()
         {
             InitializeComponent();
             
         }
+
+        private void InputForm_Load(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Maximized;
+        }
+
         private void Browse_button_Click(object sender, EventArgs e)
         {
             simulationSystem.Servers.Clear();
@@ -44,18 +51,19 @@ namespace MultiQueueSimulation
                 {
                     Console.WriteLine("File not found");
                 }
+                //Number of servers Ns
+                //Stopping number   SN
+                //Stoping method    stop
+                //selection method  sekection
+
                 text = Regex.Replace(text, @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline);
                 text = text.Replace("\r", "");
                 string[] elements = text.Split('\n');
-                //Number of servers
                 NS.Text = elements[1];
                 simulationSystem.NumberOfServers = int.Parse(elements[1]);
-                //Stopping number
                 SN.Text = elements[3];
                 simulationSystem.StoppingNumber = int.Parse(elements[3]);
-                //Stoping method
                 string stop = elements[5];
-                //selection method
                 string selection =  elements[7];
 
                 if (selection == "1")
@@ -83,7 +91,8 @@ namespace MultiQueueSimulation
                     EndTime_radioButton.Checked = false;
                     simulationSystem.StoppingCriteria = Enums.StoppingCriteria.SimulationEndTime;
                 }
-                //Interarrival Time
+
+                //Interarrival Time data extraction
                 int index = 9;
                 for (; !elements[index].Contains("Service"); index++)
                 {
@@ -93,25 +102,13 @@ namespace MultiQueueSimulation
                     t.Probability = decimal.Parse(line[1]);
                     simulationSystem.InterarrivalDistribution.Add(t);
                 }
-
-                dataGridView1.ColumnCount = 2;
-                dataGridView1.Columns[0].Name = "Interarrival Time";
-                dataGridView1.Columns[1].Name = "Probability";
-
-                for (int i = 0; i < simulationSystem.InterarrivalDistribution.Count; i++)
-                {
-                        string[] row = new string[] { simulationSystem.InterarrivalDistribution[i].Time.ToString(),
-                                                      simulationSystem.InterarrivalDistribution[i].Probability.ToString()};
-                        dataGridView1.Rows.Add(row);
-                }
-
-                //server
-                int serverIndex=0;
+                //server data extraction
+                int serverIndex=1;
                 while (index < elements.Length)
                 {
                     
                     Server server = new Server();
-                    for (index = index + 1; index < elements.Length; index++)
+                    for (index ++; index < elements.Length; index++)
                     {
                         if (elements[index].Contains("Service"))
                             break;
@@ -126,11 +123,23 @@ namespace MultiQueueSimulation
                         serverIndex++;
                         simulationSystem.Servers.Add(server);
                 }
-                dataGridView2.ColumnCount = 3;
-                dataGridView2.Columns[0].Name = "Server Index";
-                dataGridView2.Columns[1].Name = "Service Time";
-                dataGridView2.Columns[2].Name = "Probability";
 
+                //load data into Interarrival grid
+                InterarrivalGrid.ColumnCount = 2;
+                InterarrivalGrid.Columns[0].Name = "Interarrival Time";
+                InterarrivalGrid.Columns[1].Name = "Probability";
+                for (int i = 0; i < simulationSystem.InterarrivalDistribution.Count; i++)
+                {
+                        string[] row = new string[] { simulationSystem.InterarrivalDistribution[i].Time.ToString(),
+                                                      simulationSystem.InterarrivalDistribution[i].Probability.ToString()};
+                        InterarrivalGrid.Rows.Add(row);
+                }
+
+                //Load data into Server Grid
+                ServerGrid.ColumnCount = 3;
+                ServerGrid.Columns[0].Name = "Server Index";
+                ServerGrid.Columns[1].Name = "Service Time";
+                ServerGrid.Columns[2].Name = "Probability";
                 for (int i = 0;i<simulationSystem.Servers.Count;i++)
                 {
                     for (int j = 0; j < simulationSystem.Servers[i].TimeDistribution.Count; j++)
@@ -138,7 +147,7 @@ namespace MultiQueueSimulation
                         string[] row = new string[] { simulationSystem.Servers[i].ID.ToString(),
                                                       simulationSystem.Servers[i].TimeDistribution[j].Time.ToString(),
                                                       simulationSystem.Servers[i].TimeDistribution[j].Probability.ToString()};
-                        dataGridView2.Rows.Add(row);
+                        ServerGrid.Rows.Add(row);
                     }
                 }
             }
@@ -148,8 +157,10 @@ namespace MultiQueueSimulation
 
         private void Out_button_Click(object sender, EventArgs e)
         {
-            f2 = new Form2(simulationSystem);
-            f2.Show();
+            simOutput = new SimOutput(simulationSystem);
+            simOutput.Show();
+            Hide();
         }
+
     }
 }

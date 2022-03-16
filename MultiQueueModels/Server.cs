@@ -29,7 +29,7 @@ namespace MultiQueueModels
         {
             TimeDistribution[0].CummProbability = TimeDistribution[0].Probability;
             TimeDistribution[0].MinRange = 1;
-            TimeDistribution[0].MaxRange = (int)TimeDistribution[0].Probability * 100;
+            TimeDistribution[0].MaxRange = (int)(TimeDistribution[0].Probability * 100);
 
 
             for (int i = 1; i < TimeDistribution.Count; i++)
@@ -38,7 +38,7 @@ namespace MultiQueueModels
                 decimal prevProp = TimeDistribution[i].Probability;
                 TimeDistribution[i].CummProbability = TimeDistribution[i - 1].CummProbability + TimeDistribution[i].Probability;
                 TimeDistribution[i].MinRange = TimeDistribution[i - 1].MaxRange + 1;
-                TimeDistribution[i].MaxRange = (int)TimeDistribution[i].CummProbability * 100;
+                TimeDistribution[i].MaxRange = (int)(TimeDistribution[i].CummProbability * 100);
 
             }
         }
