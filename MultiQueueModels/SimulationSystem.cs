@@ -26,9 +26,10 @@ namespace MultiQueueModels
 
         public void BuildInterArrTable()
         {
+
             InterarrivalDistribution[0].CummProbability = InterarrivalDistribution[0].Probability;
             InterarrivalDistribution[0].MinRange = 1;
-            InterarrivalDistribution[0].MaxRange = (int)InterarrivalDistribution[0].Probability*100;
+            InterarrivalDistribution[0].MaxRange = (int)(InterarrivalDistribution[0].Probability*100);
 
 
             for (int i=1;i< InterarrivalDistribution.Count;i++)
@@ -37,7 +38,7 @@ namespace MultiQueueModels
                 decimal prevProp = InterarrivalDistribution[i].Probability;
                 InterarrivalDistribution[i].CummProbability = InterarrivalDistribution[i - 1].CummProbability + InterarrivalDistribution[i].Probability;
                 InterarrivalDistribution[i].MinRange = InterarrivalDistribution[i - 1].MaxRange + 1;
-                InterarrivalDistribution[i].MaxRange = (int)InterarrivalDistribution[i].CummProbability * 100;
+                InterarrivalDistribution[i].MaxRange = (int)(InterarrivalDistribution[i].CummProbability * 100);
 
             }
         }
@@ -60,39 +61,53 @@ namespace MultiQueueModels
             //Cannot index an empty object,
             //object must be intialized first and data must be added before refrence
             SimulationTable = new List<SimulationCase>();
-            SimulationCase Scase = new SimulationCase();
+            SimulationCase Scase;
             Random random = new Random();
             int returnedServer;
 
             setTotalWorkingTime();
 
-            Scase.InterArrival = 0;
-            Scase.RandomInterArrival = 0;
-            Scase.ArrivalTime = 0;
+            
 
-            SimulationTable.Add(Scase);
+            for (int i = 0; i <StoppingNumber; i++)
+            {
+                Scase = new SimulationCase();
+                if (i == 0){
+                  
+                    Scase.InterArrival = 0;
+                    Scase.RandomInterArrival = 0;
+                    Scase.ArrivalTime = 0;
+                    Scase.CustomerNumber = i+1;
 
-            for (int i = 1; i <StoppingNumber; i++)
-            { 
+                    Scase.RandomService = random.Next(1, 100);
+                    SimulationTable.Add(Scase);
+
+				}
+				else
+				{
+                    Scase.RandomInterArrival = random.Next(1, 100);
+                    Scase.InterArrival = FindRange(Scase.RandomInterArrival);
+                    Scase.ArrivalTime = SimulationTable[i - 1].ArrivalTime + Scase.InterArrival;
+                    Scase.CustomerNumber = i+1;
+
+                    Scase.RandomService = random.Next(1, 100);
+                    SimulationTable.Add(Scase);
+                }
+                
                 //cannot directly index/refrence an empty object from a list
-                Scase.CustomerNumber = i;
-                Scase.RandomInterArrival = random.Next(1, 100);
-                Scase.InterArrival = FindRange(Scase.RandomInterArrival);
-                Scase.ArrivalTime = SimulationTable[i - 1].ArrivalTime + Scase.InterArrival;
-                Scase.RandomService = random.Next(1, 100);    
-                SimulationTable.Add(Scase);
+                
 
                 if(SelectionMethod.Equals(Enums.SelectionMethod.HighestPriority))
                 {
-                    returnedServer = priorServer(SimulationTable[i].ArrivalTime);
+                    returnedServer = priorServer(Scase.ArrivalTime);
                     if(returnedServer != -1)
                     {
-                        fillServerInfo(i, returnedServer);                   
+                        fillServerInfo(i, returnedServer,Scase.ArrivalTime);                   
                     }
                     else
                     {
                         int queuedServer = findMinFinishTime();
-                        fillServerInfo(i, queuedServer);                        
+                        fillServerInfo(i, queuedServer,Servers[queuedServer].FinishTime);                        
                     }
                 }
                 else if (SelectionMethod.Equals(Enums.SelectionMethod.Random)){
@@ -104,7 +119,7 @@ namespace MultiQueueModels
                         if (!uniqueRandoms.Contains(randomServer)) {
                             if (isAvailable(randomServer, SimulationTable[i].ArrivalTime))
                             {
-                                fillServerInfo(i, randomServer);
+                                fillServerInfo(i, randomServer, Scase.ArrivalTime);
                                 break;
                             }
 
@@ -113,13 +128,14 @@ namespace MultiQueueModels
                         if(uniqueRandoms.Count == Servers.Count)
                         {
                             int queuedServer = findMinFinishTime();
-                            fillServerInfo(i, queuedServer);
+                            fillServerInfo(i, queuedServer,Servers[queuedServer].FinishTime);
                             break;
                         }
                     }
                 }
                 SimulationTable[i].TimeInQueue =
-                    SimulationTable[i].StartTime - SimulationTable[i].EndTime;
+                    SimulationTable[i].StartTime - SimulationTable[i].ArrivalTime;
+               
             }
 
 
@@ -132,11 +148,11 @@ namespace MultiQueueModels
                 Servers[i].TotalWorkingTime = 0;
             }
         }
-        public void fillServerInfo(int index , int ser)
+        public void fillServerInfo(int index , int ser,int startTime)
         {
             Servers[ser].ID = ser;
             SimulationTable[index].AssignedServer = Servers[ser];
-            SimulationTable[index].StartTime = SimulationTable[index].ArrivalTime;
+            SimulationTable[index].StartTime = startTime;
 
             SimulationTable[index].ServiceTime =
             SimulationTable[index].AssignedServer.FindRange(SimulationTable[index].RandomService);
