@@ -10,11 +10,13 @@ using System.Windows.Forms;
 using MultiQueueModels;
 using MultiQueueTesting;
 
+
 namespace MultiQueueSimulation
 {
     public partial class Metrics : Form
     {
         SimOutput SimOutput;
+        Charts chart;
         SimulationSystem simulationSystem;
         public Metrics(SimulationSystem simulationSystem)
         {
@@ -58,5 +60,11 @@ namespace MultiQueueSimulation
             Hide();
         }
 
+        private void chartsButton_Click(object sender, EventArgs e)
+        {
+            chart = new Charts(simulationSystem);
+            chart.Show();
+            Hide();
+        }
     }
 }

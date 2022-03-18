@@ -20,6 +20,7 @@ namespace MultiQueueModels
 
         public List<TimeDistribution> TimeDistribution;
 
+        public List<int> serverStatus;
         //optional if needed use them
         public int FinishTime { get; set; }
         public int TotalWorkingTime { get; set; }
@@ -54,6 +55,15 @@ namespace MultiQueueModels
                 }
             }
             return 1;
+        }
+        public void AssignServerStatus()
+        {
+            serverStatus = new List<int>();
+
+            for(int i =0; i<TimeDistribution.Count; i++)
+            {
+
+            }
         }
     }
 }
