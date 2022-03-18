@@ -164,6 +164,7 @@ namespace MultiQueueModels
             SimulationTable[index].AssignedServer.FindRange(SimulationTable[index].RandomService);
 
             Servers[ser].TotalWorkingTime += SimulationTable[index].ServiceTime;
+            Servers[ser].TotalNumberOfCustomers += 1;
             SimulationTable[index].EndTime = SimulationTable[index].StartTime + SimulationTable[index].ServiceTime;
             SimulationTable[index].AssignedServer.FinishTime = SimulationTable[index].EndTime;
             Servers[ser].FinishTime = SimulationTable[index].AssignedServer.FinishTime;
@@ -220,7 +221,9 @@ namespace MultiQueueModels
             decimal waitedTimeSum = 0;
             decimal waitedCustomers = 0;
             int maxWait = 0;
-            int nonzero = 0;
+            int count = 1;
+            //int TimeToWait = SimulationTable[0].ArrivalTime + SimulationTable[0].TimeInQueue; ;
+
             for (int i = 0; i < SimulationTable.Count; i++)
             {
                 waitedTimeSum += SimulationTable[i].TimeInQueue;
@@ -228,18 +231,27 @@ namespace MultiQueueModels
                 if (SimulationTable[i].TimeInQueue != 0)
                 {
                     waitedCustomers += 1;
-                    nonzero++;
-
-                }
-                else
-                {
-                    if (nonzero > maxWait)
+                    int TimeToWait = SimulationTable[i].ArrivalTime + SimulationTable[i].TimeInQueue; 
+                    for (int j=i+1;j< SimulationTable.Count;j++)
                     {
-                        maxWait = nonzero;
+                        if(SimulationTable[j].ArrivalTime < TimeToWait)
+                        {
+                            count++;
+                        }
+                        else
+                        {
+                            if (maxWait< count)
+                            {
+                                maxWait = count;
+                            }
+                            count = 1;
+                            break;
+                        }
                     }
-                    nonzero = 0;
-
+                    
                 }
+
+
 
 
             }
@@ -251,8 +263,8 @@ namespace MultiQueueModels
 
         public void CalculatePerServerPerformance()
         {
-            int maxFinishTime = 0;
-            int totalIdleTime = 0;
+            decimal maxFinishTime = 0;
+            decimal totalIdleTime = 0;
             for (int i = 0; i < Servers.Count; i++)
             {
                 if (Servers[i].FinishTime > maxFinishTime)
@@ -266,7 +278,14 @@ namespace MultiQueueModels
             {
                 totalIdleTime = maxFinishTime - Servers[j].TotalWorkingTime;
                 Servers[j].IdleProbability = totalIdleTime / maxFinishTime;
-                Servers[j].AverageServiceTime = Servers[j].TotalWorkingTime / SimulationTable.Count;
+                if (Servers[j].TotalNumberOfCustomers == 0)
+                {
+                    Servers[j].AverageServiceTime = 0;
+                }
+                else
+                {
+                    Servers[j].AverageServiceTime = (decimal)((decimal)Servers[j].TotalWorkingTime / (decimal)Servers[j].TotalNumberOfCustomers);
+                }
                 //Not sure
                 Servers[j].Utilization = Servers[j].TotalWorkingTime / maxFinishTime;
             }
