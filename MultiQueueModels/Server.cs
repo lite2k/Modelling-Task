@@ -15,10 +15,11 @@ namespace MultiQueueModels
 
         public int ID { get; set; }
         public decimal IdleProbability { get; set; }
-        public decimal AverageServiceTime { get; set; } 
+        public decimal AverageServiceTime { get; set; }
         public decimal Utilization { get; set; }
 
         public List<TimeDistribution> TimeDistribution;
+        public int TotalNumberOfCustomers {get;set;}
 
         public List<int> serverStatus;
         //optional if needed use them
