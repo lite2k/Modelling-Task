@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.interarrivalGrid = new System.Windows.Forms.DataGridView();
-            this.outButton = new System.Windows.Forms.Button();
             this.simGrid = new System.Windows.Forms.DataGridView();
             this.ServerGrid = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
@@ -51,16 +50,6 @@
             this.interarrivalGrid.RowTemplate.Height = 24;
             this.interarrivalGrid.Size = new System.Drawing.Size(561, 339);
             this.interarrivalGrid.TabIndex = 0;
-            // 
-            // outButton
-            // 
-            this.outButton.Location = new System.Drawing.Point(526, 876);
-            this.outButton.Name = "outButton";
-            this.outButton.Size = new System.Drawing.Size(95, 23);
-            this.outButton.TabIndex = 2;
-            this.outButton.Text = "Show output";
-            this.outButton.UseVisualStyleBackColor = true;
-            this.outButton.Click += new System.EventHandler(this.outButton_Click);
             // 
             // simGrid
             // 
@@ -141,7 +130,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ServerGrid);
             this.Controls.Add(this.simGrid);
-            this.Controls.Add(this.outButton);
             this.Controls.Add(this.interarrivalGrid);
             this.Name = "SimOutput";
             this.Text = "Simulation Window";
@@ -157,7 +145,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView interarrivalGrid;
-        private System.Windows.Forms.Button outButton;
         private System.Windows.Forms.DataGridView simGrid;
         private System.Windows.Forms.DataGridView ServerGrid;
         private System.Windows.Forms.Label label1;

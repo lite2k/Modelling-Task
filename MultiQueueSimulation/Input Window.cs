@@ -18,7 +18,7 @@ namespace MultiQueueSimulation
     {
         SimOutput simOutput;
         SimulationSystem simulationSystem = new SimulationSystem();
-
+        bool recvInput = false;
         public InputForm()
         {
             InitializeComponent();
@@ -32,19 +32,18 @@ namespace MultiQueueSimulation
 
         private void Browse_button_Click(object sender, EventArgs e)
         {
+            recvInput = true;
             simulationSystem.Servers.Clear();
             simulationSystem.InterarrivalDistribution.Clear();
-            int size = -1;
             string text = "";
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
-            if (result == DialogResult.OK) // Test result.
+            DialogResult result = openFileDialog1.ShowDialog(); 
+            if (result == DialogResult.OK) 
             {
                 string file = openFileDialog1.FileName;
                 try
                 {
                     text = File.ReadAllText(file);
-                    size = text.Length;
                 }
                 catch (IOException)
                 {
@@ -153,12 +152,16 @@ namespace MultiQueueSimulation
             
 
         }
-
         private void Out_button_Click(object sender, EventArgs e)
         {
-            simOutput = new SimOutput(simulationSystem);
-            simOutput.Show();
-            Hide();
+            if (recvInput)
+            {
+                simOutput = new SimOutput(simulationSystem, true);
+                simOutput.Show();
+                Hide();
+            }
+            else
+                MessageBox.Show("No input recived please choose a file first", "No Data to operate");
         }
 
     }

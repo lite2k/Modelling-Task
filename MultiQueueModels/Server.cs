@@ -11,6 +11,7 @@ namespace MultiQueueModels
         public Server()
         {
             this.TimeDistribution = new List<TimeDistribution>();
+            this.serverStatus = new List<bool>();
         }
 
         public int ID { get; set; }
@@ -20,8 +21,7 @@ namespace MultiQueueModels
 
         public List<TimeDistribution> TimeDistribution;
         public int TotalNumberOfCustomers {get;set;}
-
-        public List<int> serverStatus;
+        public List<bool> serverStatus { get; set;}
         //optional if needed use them
         public int FinishTime { get; set; }
         public int TotalWorkingTime { get; set; }
@@ -56,15 +56,6 @@ namespace MultiQueueModels
                 }
             }
             return 1;
-        }
-        public void AssignServerStatus()
-        {
-            serverStatus = new List<int>();
-
-            for(int i =0; i<TimeDistribution.Count; i++)
-            {
-
-            }
         }
     }
 }

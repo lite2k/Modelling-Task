@@ -17,17 +17,23 @@ namespace MultiQueueSimulation
         Metrics metrics;
         InputForm inputForm;
         SimulationSystem simulationSystem;
-
-        public SimOutput(SimulationSystem simulationSystem)
+        bool calc;
+        public SimOutput(SimulationSystem simulationSystem,bool calc)
         {
             InitializeComponent();
             this.simulationSystem = simulationSystem;
+            this.calc = calc;
         }
 
         private void SimOutput_Load(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Maximized;
-            simulationSystem.BuildInterArrTable();
+
+            if (calc)
+            {
+                simulationSystem.BuildInterArrTable();
+                simulationSystem.BuildSimulationTable(); 
+            }
 
             //Load interarrival table into grid
             interarrivalGrid.ColumnCount = 5;
@@ -46,7 +52,6 @@ namespace MultiQueueSimulation
                 interarrivalGrid.Rows.Add(row);
             }
 
-            simulationSystem.BuildSimulationTable();
 
             //Load simulation table into grid
             simGrid.ColumnCount = 10;
@@ -77,7 +82,7 @@ namespace MultiQueueSimulation
 
             }
 
-            simulationSystem.BuildInterArrTable();
+            
 
             //load server table into grid
             ServerGrid.ColumnCount = 6;
@@ -100,11 +105,6 @@ namespace MultiQueueSimulation
                     ServerGrid.Rows.Add(row);
                 }
             }
-        }
-
-        private void outButton_Click(object sender, EventArgs e)
-        {
-            
         }
         private void Performance_Button_Click(object sender, EventArgs e)
         {

@@ -18,6 +18,7 @@ namespace MultiQueueSimulation
         SimOutput SimOutput;
         Charts chart;
         SimulationSystem simulationSystem;
+        
         public Metrics(SimulationSystem simulationSystem)
         {
             InitializeComponent();
@@ -26,13 +27,15 @@ namespace MultiQueueSimulation
         private void Metrics_Load(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Maximized;
+            
             simulationSystem.CalculatePerformaneMeasures();
+            simulationSystem.CalculatePerServerPerformance();
+              
 
             averageText.Text = simulationSystem.PerformanceMeasures.AverageWaitingTime.ToString();
             waitText.Text = simulationSystem.PerformanceMeasures.WaitingProbability.ToString();
             maxQText.Text = simulationSystem.PerformanceMeasures.MaxQueueLength.ToString();
 
-            simulationSystem.CalculatePerServerPerformance();
 
             perServerGrid.ColumnCount = 4;
             perServerGrid.Columns[0].Name = "Server ID";
@@ -48,21 +51,21 @@ namespace MultiQueueSimulation
                                              simulationSystem.Servers[i].Utilization.ToString()};
                 perServerGrid.Rows.Add(row);
             }
-            //SimulationSystem system = new SimulationSystem();
-            string result = TestingManager.Test(simulationSystem, Constants.FileNames.TestCase1);
+            string result = TestingManager.Test(simulationSystem, Constants.FileNames.TestCase3);
             MessageBox.Show(result);
         }
 
         private void SimOutButton_Click(object sender, EventArgs e)
         {
-            SimOutput = new SimOutput(simulationSystem);
+            SimOutput = new SimOutput(simulationSystem,false);
             SimOutput.Show();
             Hide();
         }
 
         private void chartsButton_Click(object sender, EventArgs e)
         {
-            chart = new Charts(simulationSystem);
+            int ID = 1;
+            chart = new Charts(simulationSystem,ID);
             chart.Show();
             Hide();
         }

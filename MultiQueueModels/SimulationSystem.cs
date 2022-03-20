@@ -23,6 +23,8 @@ namespace MultiQueueModels
         public List<TimeDistribution> InterarrivalDistribution { get; set; }
         public Enums.StoppingCriteria StoppingCriteria { get; set; }
         public Enums.SelectionMethod SelectionMethod { get; set; }
+        ///user defined
+        decimal maxFinishTime;
 
         public void BuildInterArrTable()
         {
@@ -60,8 +62,6 @@ namespace MultiQueueModels
             {
                 Servers[i].BuildServerTable();
             }
-            //Cannot index an empty object,
-            //object must be intialized first and data must be added before refrence
             SimulationTable = new List<SimulationCase>();
             SimulationCase Scase;
             Random random = new Random();
@@ -96,9 +96,6 @@ namespace MultiQueueModels
                     Scase.RandomService = random.Next(1, 100);
                     SimulationTable.Add(Scase);
                 }
-
-                //cannot directly index/refrence an empty object from a list
-
 
                 if (SelectionMethod.Equals(Enums.SelectionMethod.HighestPriority))
                 {
@@ -222,7 +219,6 @@ namespace MultiQueueModels
             decimal waitedCustomers = 0;
             int maxWait = 0;
             int count = 1;
-            //int TimeToWait = SimulationTable[0].ArrivalTime + SimulationTable[0].TimeInQueue; ;
 
             for (int i = 0; i < SimulationTable.Count; i++)
             {
@@ -263,7 +259,7 @@ namespace MultiQueueModels
 
         public void CalculatePerServerPerformance()
         {
-            decimal maxFinishTime = 0;
+            maxFinishTime = 0;
             decimal totalIdleTime = 0;
             for (int i = 0; i < Servers.Count; i++)
             {
@@ -286,12 +282,23 @@ namespace MultiQueueModels
                 {
                     Servers[j].AverageServiceTime = (decimal)((decimal)Servers[j].TotalWorkingTime / (decimal)Servers[j].TotalNumberOfCustomers);
                 }
-                //Not sure
                 Servers[j].Utilization = Servers[j].TotalWorkingTime / maxFinishTime;
             }
-
-
-
+        }
+        public void AssignServerStatus(int ID)
+        {
+            List<bool> sStatus = new List<bool>(Enumerable.Repeat(false,decimal.ToInt32(maxFinishTime)+1));
+            for (int i = 0; i < SimulationTable.Count; i++)
+            {
+                if(ID == SimulationTable[i].AssignedServer.ID)
+                {
+                    for (int j = SimulationTable[i].StartTime; j <= SimulationTable[i].EndTime; j++)
+                    {
+                        sStatus[j] = true;
+                    }
+                }
+            }
+            Servers[ID-1].serverStatus = sStatus;
         }
     }
 }
