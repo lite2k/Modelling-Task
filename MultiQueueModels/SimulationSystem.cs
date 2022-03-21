@@ -236,7 +236,7 @@ namespace MultiQueueModels
                         }
                         else
                         {
-                            if (maxWait< count)
+                            if (maxWait < count)
                             {
                                 maxWait = count;
                             }
@@ -246,10 +246,6 @@ namespace MultiQueueModels
                     }
                     
                 }
-
-
-
-
             }
             PerformanceMeasures.AverageWaitingTime = (waitedTimeSum / SimulationTable.Count);
             PerformanceMeasures.WaitingProbability = (waitedCustomers / SimulationTable.Count);
@@ -299,6 +295,18 @@ namespace MultiQueueModels
                 }
             }
             Servers[ID-1].serverStatus = sStatus;
+        }
+        //Check if input customer < Simulation End Time
+        public bool CheckServerTime(int RandomNumber)
+        {
+
+            for (int i = 0; i < Servers.Count; i++)
+            {
+                int ServiceTime = Servers[i].FindRange(RandomNumber);
+                if (Servers[i].FinishTime + ServiceTime < StoppingNumber)
+                    return true;
+            }
+            return false;
         }
     }
 }

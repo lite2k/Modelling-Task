@@ -51,7 +51,7 @@ namespace MultiQueueSimulation
                                              simulationSystem.Servers[i].Utilization.ToString()};
                 perServerGrid.Rows.Add(row);
             }
-            string result = TestingManager.Test(simulationSystem, Constants.FileNames.TestCase3);
+            string result = TestingManager.Test(simulationSystem, Constants.FileNames.TestCase1);
             MessageBox.Show(result);
         }
 
